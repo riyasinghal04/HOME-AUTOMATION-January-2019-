@@ -1,0 +1,19 @@
+
+#include<avr/io.h>
+
+int main(void)
+{
+   
+	DDRC|=(1<<PINC5);
+	DDRC&=~(1<<PINC1);
+	PORTC|=(1<<PINC1);
+	while(1)
+	{
+		
+		if(PINC1 & (1<<PINC1))
+		PORTC|=(1<<PINC5);
+		else
+		PORTC&=~(1<<PINC5);
+	}
+	
+}

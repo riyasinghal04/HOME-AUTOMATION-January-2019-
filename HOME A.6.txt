@@ -1,0 +1,51 @@
+	
+	
+	# include <avr/io.h>
+	# include <avr/sfr_defs.h>
+	# include <util/delay.h>
+	int x=0;
+	void OUT()
+	{
+		--x;
+		_delay_ms(2000);
+	}
+	void IN()
+	{
+		++x;
+		_delay_ms(2000);
+	}
+	int main (void)
+	{
+		// set all pins on PORTB for output
+		DDRB = 0xFF;
+
+		// set port pin PORTD2 as input and leave the others pins
+		// in their originally state (inputs or outputs, it doesn't matter)
+		DDRD &= ~(1 << PD2);
+		DDRD &= ~(1 << PD3);
+		DDRD &= ~(1 << PD4);
+		// see comment #1
+
+		while (1)
+		{
+			if (bit_is_clear(PIND,2))    // see comment #2
+			{
+				IN();
+			}
+			else if(bit_is_clear(PIND,3))
+			{
+				OUT();
+			}
+			if (x>0 || bit_is_set(PIND,4) )
+			{
+				PORTB |= (1<<PB2);
+			}
+			else
+			{
+				PORTB &= ~(1<<PB2);
+			}
+		}
+		
+		return 0;
+	}
+

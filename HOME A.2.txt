@@ -1,0 +1,20 @@
+# include <avr/io.h>
+
+int main (void)
+{
+    // set all pins on PORTB for output
+    DDRB = 0xFF;
+
+    // set port pin PORTD2 as input and leave the others pins 
+    // in their originally state (inputs or outputs, it doesn't matter)
+    DDRD &= ~(1 << PD2);        // see comment #1
+
+    while (1) 
+    {
+        if (PIND & (1<<PD2))    // see comment #2
+            PORTB |= (1<<PB2);  // see comment #3
+        else
+            PORTB &= ~(1<<PB2); // see comment #4
+    }
+    return 0;
+}
